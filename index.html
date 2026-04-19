@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>未来から来た合否照会サイト</title>
+
+<!-- OGP（画像なし） -->
+<meta property="og:title" content="未来から来た合否照会サイト">
+<meta property="og:description" content="今ならまだ変えられる…（※ジョークサイト）">
+<meta property="og:type" content="website">
+
+<style>
+body {
+  font-family: sans-serif;
+  background: #f5f6f8;
+  margin: 0;
+  text-align: center;
+}
+
+.container {
+  max-width: 420px;
+  margin: 60px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+h1 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+button {
+  padding: 12px 20px;
+  background: #2c6ed5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.hidden { display: none; }
+
+.fail {
+  color: #000;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.loading {
+  font-size: 14px;
+  color: #666;
+}
+
+.small {
+  font-size: 10px;
+  color: #aaa;
+}
+
+.footer {
+  margin-top: 100px;
+  padding: 30px;
+}
+
+.share {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.share button {
+  flex: 1;
+  max-width: 140px;
+}
+
+.x { background: #111; }
+.line { background: #06c755; }
+</style>
+</head>
+
+<body>
+
+<!-- ① 学校入力 -->
+<div class="container" id="page1">
+  <h1>未来から来た合否照会サイト</h1>
+  <p>学校を入力してください</p>
+  <input type="text" id="school" placeholder="例：〇〇高校">
+  <br>
+  <button onclick="goLogin()">結果を見る</button>
+  <p class="small">※これはジョークサイトです</p>
+</div>
+
+<!-- ② ログイン -->
+<div class="container hidden" id="page2">
+  <h1 id="schoolTitle"></h1>
+  <p>受験番号とパスワードを入力してください。</p>
+
+  <input type="text" placeholder="受験番号">
+  <input type="password" placeholder="パスワード">
+
+  <br>
+  <button onclick="login()">ログインして結果を見る</button>
+</div>
+
+<!-- ③ 結果 -->
+<div class="container hidden" id="page3">
+  <h1 id="resultTitle"></h1>
+  <p class="loading" id="loading">照会中です。しばらくお待ちください。</p>
+  <p class="fail hidden" id="failMsg">残念ながら不合格となりました</p>
+</div>
+
+<!-- フッター -->
+<div class="footer hidden" id="footer">
+  <p style="margin-bottom:10px;">友達にも体験させる</p>
+
+  <div class="share">
+    <button class="x" onclick="share('x')">X</button>
+    <button class="line" onclick="share('line')">LINE</button>
+  </div>
+
+  <p>
+    ※これはジョークサイトです。<br>
+    未来の合格のために頑張って！
+  </p>
+</div>
+
+<script>
+let schoolName = "";
+
+function goLogin() {
+  schoolName = document.getElementById("school").value || "志望校";
+  document.getElementById("schoolTitle").innerText = schoolName + " 合否照会";
+
+  document.getElementById("page1").classList.add("hidden");
+  document.getElementById("page2").classList.remove("hidden");
+}
+
+function login() {
+  document.getElementById("page2").classList.add("hidden");
+  document.getElementById("page3").classList.remove("hidden");
+
+  document.getElementById("resultTitle").innerText = schoolName + " 合否結果";
+
+  setTimeout(() => {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("failMsg").classList.remove("hidden");
+    document.getElementById("footer").classList.remove("hidden");
+  }, 1200);
+}
+
+function share(type) {
+  const text = schoolName + "落ちた未来から来た。今ならまだ変えられる…\n（※ジョークサイト）";
+  const url = location.href;
+
+  if(type === "x") {
+    window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(text) + "&url=" + url);
+  }
+  if(type === "line") {
+    window.open("https://social-plugins.line.me/lineit/share?url=" + url);
+  }
+}
+</script>
+
+</body>
+</html>
